@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+@media (max-width: 767px) {
+    h1 {
+      font-size: 24px;
+    }
+    .form-control {
+      font-size: 14px;
+    }
+    .btn {
+      font-size: 16px;
+    }
+    /* Другие стили для мобильных устройств */
+  }
+body {
+    background-color: black;
+    color: #fff;
+}
+.container w-50 pt-5 {
+    font-weight: 50;
+    font-size: 5pt;
+}
