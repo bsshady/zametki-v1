@@ -116,12 +116,13 @@ function getNoteTemplate(note, i) {
   return `
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <span class="${note.completed ? 'text-decoration-line-through' : ''}">${note.title}</span>
-      <span class="badge bg-secondary">${note.time || ''}</span>
-      <span>
-        <span class="btn btn-small btn-${note.completed ? 'warning' : 'success'}" data-index="${i}" data-type="toggle">&#10003;</span>
-        <span class="btn btn-small btn-success" data-type="editBoth" data-index="${i}">&#9998;</span>
-        <span class="btn btn-small btn-danger" data-type="remove" data-index="${i}">&#10005;</span>
+      <span class="d-flex align-items-center mx-1">
+        <span class="badge bg-secondary">${note.time || ''}</span>
+        <span class="btn btn-small btn-${note.completed ? 'warning' : 'success'} mx-1" data-index="${i}" data-type="toggle">&#10003;</span>
+        <span class="btn btn-small btn-success mx-1" data-type="editBoth" data-index="${i}">&#9998;</span>
+        <span class="btn btn-small btn-danger mx-1" data-type="remove" data-index="${i}">&#10005;</span>
       </span>
     </li>
   `;
 }
+
