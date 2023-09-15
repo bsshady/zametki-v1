@@ -68,21 +68,22 @@ listElement.onclick = function (event) {
     } else if (type === 'remove') {
       notes.splice(index, 1);
     } else if (type === 'editBoth') {
-      const newContent = prompt('Введите новый контент (заметка и время через пробел):', `${notes[index].title} ${notes[index].time}`);
+      const newContent = prompt('Введите новую заметку:', notes[index].title);
+      const newTime = prompt('Введите новое время (например, 18:30):', notes[index].time);
+
       if (newContent !== null) {
-        const [newTitle, newTime] = newContent.split(' ');
-        if (newTitle.trim() !== '') {
-          notes[index].title = newTitle;
-        }
-        if (newTime.trim() !== '') {
-          notes[index].time = newTime;
-        }
+        notes[index].title = newContent;
+      }
+
+      if (newTime !== null) {
+        notes[index].time = newTime;
       }
     }
     saveNotes(); // Сохраняем заметки в localStorage после изменений
     render();
   }
 };
+
 
 function getNoteTemplate(note, i) {
   return `
