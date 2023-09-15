@@ -33,12 +33,23 @@ render(); // Вызываем функцию render для отображени�
 createBtn.onclick = addNote; // Используем отдельную функцию для добавления заметки
 
 // Функция для добавления заметки
+// Функция для добавления заметки
 function addNote() {
   const title = inputElement.value.trim();
-  const time = timeElement.value.trim(); // Получаем значение времени из поля ввода времени
+  const time = timeElement.value.trim();
+
   if (title.length === 0) {
     return;
   }
+
+  // Проверяем, что введено корректное время в формате HH:MM
+  const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
+  if (!time.match(timeRegex)) {
+    alert('Введите время выполнения заметки в формате HH:MM (пример 10:56)');
+    return;
+  }
+
   const newNote = {
     title,
     time,
@@ -48,8 +59,9 @@ function addNote() {
   saveNotes(); // Сохраняем заметки в localStorage
   render();
   inputElement.value = '';
-  timeElement.value = ''; // Очищаем поле ввода времени после добавления заметки
+  timeElement.value = '';
 }
+
 
 // Добавляем обработчик события для поля ввода, чтобы добавлять заметку при нажатии Enter
 inputElement.addEventListener('keydown', function (event) {
@@ -68,21 +80,36 @@ listElement.onclick = function (event) {
     } else if (type === 'remove') {
       notes.splice(index, 1);
     } else if (type === 'editBoth') {
-      const newContent = prompt('Введите новую заметку:', notes[index].title);
-      const newTime = prompt('Введите новое время (например, 18:30):', notes[index].time);
-
+      const newContent = prompt('Введите новый контент (заметка и время через пробел):', `${notes[index].title} ${notes[index].time}`);
       if (newContent !== null) {
-        notes[index].title = newContent;
-      }
+        // Разделяем новый контент на заметку и оставшуюся часть
+        const splitIndex = newContent.lastIndexOf(' ');
+        if (splitIndex > 0) {
+          const newTitle = newContent.slice(0, splitIndex);
+          const newTime = newContent.slice(splitIndex + 1);
 
-      if (newTime !== null) {
-        notes[index].time = newTime;
+          // Проверяем, что и заметка и время не являются пустыми строками
+          if (newTitle.trim() !== '' || newTime.trim() !== '') {
+            notes[index].title = newTitle;
+            // Проверяем, что введенное время соответствует формату "00:00"
+            if (/^\d{2}:\d{2}$/.test(newTime)) {
+              notes[index].time = newTime;
+            } else {
+              alert('Введите время выполнения заметки в формате 00:00');
+            }
+          }
+        } else {
+          alert('Введите и заметку, и время');
+        }
       }
     }
     saveNotes(); // Сохраняем заметки в localStorage после изменений
     render();
   }
 };
+
+
+
 
 
 function getNoteTemplate(note, i) {
